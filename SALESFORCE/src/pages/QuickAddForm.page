@@ -1,0 +1,24 @@
+<apex:page standardController="Contact" extensions="QuickAddSave">
+<apex:sectionHeader title="Quick Add" subtitle="New Contact"/>   
+    <apex:form id="aform1">        
+        <apex:pageBlock title="Quick Add" mode="edit">
+            <apex:pageBlockButtons >
+               <apex:commandButton action="/apex/quickAdd?sfdc.tabName=01r28000000tnV8" value="Cancel" />
+               <apex:commandButton action="{!saveAndRedirect}"  value="Save" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Contact Information" columns="2">
+                <apex:inputField value="{!Contact.Salutation}" id="title"/>
+                <apex:inputText value="{!Contact.FirstName}" id="fName" />
+                <apex:inputText value="{!Contact.LastName}" id="lName" />
+                <apex:inputText value="{!Contact.Position__c}" id="position" />
+                <apex:inputText value="{!Contact.Company__c}" id="company" />
+                <apex:inputText value="{!Contact.Address_Line_1__c}" id="add1" />
+                <apex:inputText value="{!Contact.Address_Line_2__c}" id="add2" />
+                <apex:inputText value="{!Contact.MailingCountry}" id="country" />
+                <apex:inputText value="{!Contact.MailingState}" id="county" />
+                <apex:inputText value="{!Contact.MailingCity}" id="town" />
+                <apex:inputText value="{!Contact.MailingPostalCode}" id="pCode" />
+           </apex:pageBlockSection>
+    	</apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,75 @@
+<apex:page Controller="RecipientForMailingList">
+<style type="text/css">
+.customPopup {
+    background-color: white;
+    border-style: solid;
+    border-width: 2px;
+    left: 40%;
+    padding: 10px;
+    position: absolute;
+    z-index: 9999;
+    
+    width: 500px;
+    top: 30%;
+}
+.closeButton {
+    float: right;
+}
+
+
+</style>
+   <apex:sectionHeader title="Mailing List" subtitle="{!listName}"/>   
+    <apex:form >
+    <apex:pageBlock>            
+            <apex:pageBlockButtons > 
+                 <apex:commandButton value="Back" action="/apex/mailingList?sfdc.tabName=01r28000000todw"/> 
+              	<apex:commandButton value="Quick Add" action="/apex/QuickAddForm?mid={!$CurrentPage.parameters.Id}"/> 
+                 <apex:commandButton value="Import From CSV" action="{!showPopup}" rerender="popup"  />
+
+                <apex:commandButton value="Add Recipients From Existing Contacts" action="/apex/addRecipientsFromContact?id={!$CurrentPage.parameters.Id}"/>
+                <apex:commandButton value="Remove Recipients" action="{!removeRecipients}" onclick="if(!confirm('Are you sure.you want to remove selected recipients?')){return false};" reRender="table" />
+                <apex:commandButton value="Remove Mailing List" action="{!removeMailingList}" onclick="if(!confirm('Are you sure.you want to delete {!listName}? ')){return false};"/>   
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!recipients}" var="cCon" id="table">
+                <apex:column>
+                    <apex:facet name="header"><apex:inputCheckbox onchange="checkAll(this)" >                            
+                            </apex:inputCheckbox>
+                        </apex:facet>
+                    <apex:inputCheckbox value="{!cCon.selected}" id="checkedone"/>
+                </apex:column>
+                <apex:column ><apex:facet name="header" >Name</apex:facet>{!cCon.con.Name}</apex:column>
+                <apex:column >
+                	<apex:facet name="header" >Address
+					</apex:facet>
+                    {!cCon.con.Address_Line_1__c} {!cCon.con.Address_Line_2__c} {!cCon.con.MailingCity} {!cCon.con.MailingState} {!cCon.con.MailingCountry}
+                </apex:column>
+      		</apex:pageBlockTable>
+             <apex:outputPanel id="popup">
+                <apex:outputPanel id="popupBackground" styleClass="popupBackground" style="background-color:black;opacity: 0.20;position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 9998;filter: alpha(opacity = 20);" layout="block" rendered="{!displayPopUp}"></apex:outputPanel>
+                <apex:outputPanel id="popInnerOutputPnl" styleClass="customPopup" layout="block" rendered="{!displayPopUp}">
+                    <apex:actionRegion >
+                         <apex:commandButton value="X" title="Close the popup" action="{!closePopup}" styleClass="closeButton">
+                         
+                     </apex:commandButton>
+                    </apex:actionRegion>
+                    
+                    <apex:pageBlockSection columns="1">
+                        <apex:pageBlockSectionItem ><p align="center">
+                            Please note: only files in CSV format can be uploaded, all others file format will not be accepted by our our system - please check our guide for more information.</p>
+                            <p align="center">                            
+                            If you are unsure what a csv file is, please download the example file here.</p>
+                            <p align="center">                                
+                            <a href="{!URLFOR($Resource.temp,'template.csv')}" target="_blank"> Download CSV </a>
+                            </p> </apex:pageBlockSectionItem>                      
+                        <apex:pageBlockSectionItem > 
+                            <apex:inputFile value="{!csvFileBody}" filename="{!csvAsString}" accept="text/csv"/>                           
+                        <apex:actionRegion >
+                            <apex:commandButton value="Import Recipients" action="{!importCSVFile}"/> 
+                        </apex:actionRegion>
+                        </apex:pageBlockSectionItem>                                  
+                    </apex:pageBlockSection>                
+                </apex:outputPanel>
+            </apex:outputPanel>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

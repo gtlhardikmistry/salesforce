@@ -1,0 +1,18 @@
+<apex:page standardController="Mailing_List__c" extensions="MailingListSave">
+
+    
+    
+    <apex:sectionHeader title="Mailing List" subtitle="Create Mailing List"/>   
+    <apex:form id="aform1">        
+        <apex:pageBlock title="Create" mode="edit">
+            <apex:pageBlockButtons >
+               <apex:commandButton action="/apex/mailingList?sfdc.tabName=01r28000000todw" value="Cancel" />
+               <apex:commandButton action="{!saveAndRedirect}"  value="Save" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Contact Information" columns="1">
+                <apex:inputText value="{!Mailing_List__c.Title__c}" id="title" />
+                <apex:inputTextarea value="{!Mailing_List__c.Description__c}" id="description" />                
+           </apex:pageBlockSection>
+    	</apex:pageBlock>
+    </apex:form>
+</apex:page>

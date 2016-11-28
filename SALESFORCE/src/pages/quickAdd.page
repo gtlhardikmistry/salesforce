@@ -1,0 +1,37 @@
+<apex:page Controller="QuickAdd">
+<apex:sectionHeader title="Quick Add" subtitle="View Contacts"/>   
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockButtons >
+              <apex:commandButton value="Quick Add" action="/apex/QuickAddForm"/> 
+                <apex:commandButton value="Delete Selected" action="{!deleteContacts}" rerender="table"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!contacts}" var="c" id="table">
+                <apex:column >
+                    <apex:facet name="header"><apex:inputCheckbox onchange="checkAll(this)" >                            
+                            </apex:inputCheckbox>
+                        </apex:facet>
+                    <apex:inputCheckbox value="{!c.selected}" id="checkedone"/>
+                </apex:column>
+         		<apex:column value="{!c.con.Name}"/>
+                <apex:column >
+                	<apex:facet name="header" >Address
+					</apex:facet>
+                    {!c.con.Address_Line_1__c} {!c.con.Address_Line_2__c} {!c.con.MailingCity} {!c.con.MailingState} {!c.con.MailingCountry}
+                </apex:column>
+      		</apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+    <script>
+        function checkAll(cb)
+        {
+            
+            var inputElem = document.getElementsByTagName("input");
+            for(var i=0; i<inputElem.length; i++)
+            {
+                if(inputElem[i].id.indexOf("checkedone")!=-1)
+                inputElem[i].checked = cb.checked;
+            }
+        }
+    </script>
+</apex:page>

@@ -1,0 +1,51 @@
+<apex:page Controller="MailingList">
+    <apex:sectionHeader title="Mailing List" subtitle="View Recipients"/>   
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Create Mailing List" action="/apex/createMailingList"/>  
+                <apex:commandButton value="Remove Mailing List" action="{!removeMailingList}" rerender="table"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!allMailingList}" var="mList" id="table">
+                 <apex:column >
+                    <apex:facet name="header"><apex:inputCheckbox onchange="checkAll(this)" styleClass="selectAll" >                            
+                            </apex:inputCheckbox>
+                        </apex:facet>
+                    <apex:inputCheckbox value="{!mList.selected}" id="checkedone" onchange="checkSelectAll()"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header"> Title</apex:facet>
+                    <apex:commandLink action="/apex/getRecipientForMailingList?id={!mList.wMailingList.Id}" value="{!mList.wMailingList.Title__c}" id="theCommandLink"/>
+                </apex:column>
+                <apex:column value="{!mList.wMailingList.Description__c}">                	
+                </apex:column>
+      		</apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+    <script>
+        function checkAll(cb)
+        {            
+            var inputElem = document.getElementsByTagName("input");
+            for(var i=0; i<inputElem.length; i++)
+            {
+                if(inputElem[i].id.indexOf("checkedone")!=-1)
+                inputElem[i].checked = cb.checked;
+            }
+        }
+    function checkSelectAll()
+        {   
+            var isAllSelected = true;
+            var inputElem = document.getElementsByTagName("input");
+            for(var i=0; i<inputElem.length; i++)
+            {
+                if(inputElem[i].id.indexOf("checkedone")!=-1)
+                {
+                	if(!inputElem[i].checked){                        
+                        isAllSelected = false;
+                    }
+                }               
+            }         	
+            document.getElementsByClassName("selectAll")[0].checked = isAllSelected;        
+        }   
+    </script>
+</apex:page>
