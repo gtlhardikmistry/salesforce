@@ -20,7 +20,7 @@
 </style>
    <apex:sectionHeader title="Mailing List" subtitle="{!listName}"/>   
     <apex:form >
-    <apex:pageBlock>            
+    <apex:pageBlock >            
             <apex:pageBlockButtons > 
                  <apex:commandButton value="Back" action="/apex/mailingList?sfdc.tabName=01r28000000todw"/> 
               	<apex:commandButton value="Quick Add" action="/apex/QuickAddForm?mid={!$CurrentPage.parameters.Id}"/> 
@@ -31,7 +31,7 @@
                 <apex:commandButton value="Remove Mailing List" action="{!removeMailingList}" onclick="if(!confirm('Are you sure.you want to delete {!listName}? ')){return false};"/>   
             </apex:pageBlockButtons>
             <apex:pageBlockTable value="{!recipients}" var="cCon" id="table">
-                <apex:column>
+                <apex:column >
                     <apex:facet name="header"><apex:inputCheckbox onchange="checkAll(this)" >                            
                             </apex:inputCheckbox>
                         </apex:facet>
